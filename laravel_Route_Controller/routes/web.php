@@ -4,6 +4,9 @@ use App\Http\Controllers\CobaController;
 use App\Http\Controllers\FirstController;
 use Illuminate\Support\Facades\Route;
 use app\Http\Controllers\First_Controller;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +25,17 @@ Route::get('/', function () {
 
 Route::controller(FirstController::class)->group(function () {
     Route::get('/first', 'coba1');
-    Route::get('/first2', 'coba2');
     Route::get('/first3', 'coba3');
     Route::get('/first4', 'coba4');
 });
 
-Route::resource('/coba', CobaController::class);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
+
+Route::get('/dashboard', [FirstController::class, 'dashboard']);
+Route::get('/dashboard', [FirstController::class, 'read']);
+
+Route::post('/submit', [FirstController::class, 'submit']);
+
+Route::resource('/coba', FirstController::class);
